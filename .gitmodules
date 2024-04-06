@@ -1,0 +1,3 @@
+[submodule "FruitfulFriends-gRPC-server"]
+	path = FruitfulFriends-gRPC-server
+	url = https://github.com/markgregr/FruitfulFriends-gRPC-server
