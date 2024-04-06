@@ -44,7 +44,7 @@ services:
     container_name: filebeat
     command: filebeat -e -strict.perms=false
     volumes:
-      - ./logs:/src/logs
+      - ./FruitfulFriends-gRPC-server/logs:/src/logs
     depends_on:
       - elasticsearch
       - kibana # Добавлено для зависимости от Logstash
