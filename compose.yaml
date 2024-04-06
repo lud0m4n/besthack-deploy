@@ -5,14 +5,14 @@ volumes:
   postgresdb_data:
 
 services:
-  postgres:
+  postgres-grpc:
     image: postgres:latest
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: fruitfulfriends
+      POSTGRES_USER: ${GRPC_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${GRPC_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${GRPC_POSTGRES_DB}
     volumes:
       - postgresdb_data:/var/lib/postgresql/data
 
@@ -21,9 +21,9 @@ services:
     ports:
       - "8888:8080"
     depends_on:
-      - postgres
+      - postgres-grpc
 
-  redis:
+  redis-grpc:
     image: redis:latest
     restart: always
     ports:
@@ -72,9 +72,32 @@ services:
   grpc-server:
     build:
       context: ./FruitfulFriends-gRPC-server
+      args:
+        GRPC_SERVER_ENV: ${GRPC_SERVER_ENV}
+        GRPC_SERVER_POSTGRES_URL: ${GRPC_SERVER_POSTGRES_URL}
+        GRPC_SERVER_POSTGRES_AUTO_MIGRATE: ${GRPC_SERVER_POSTGRES_AUTO_MIGRATE}
+        GRPC_SERVER_REDIS_ENDPOINT: ${GRPC_SERVER_REDIS_ENDPOINT}
+        GRPC_SERVER_REDIS_PASSWORD: ${GRPC_SERVER_REDIS_PASSWORD}
+        GRPC_SERVER_TOKEN_TTL: ${GRPC_SERVER_TOKEN_TTL}
+        GRPC_SERVER_JWT_SECRET: ${GRPC_SERVER_JWT_SECRET}
+        GRPC_SERVER_HOST: ${GRPC_SERVER_HOST}
+        GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+        GRPC_SERVER_TIMEOUT: ${GRPC_SERVER_TIMEOUT}
     ports:
       - "8080:8080"
+    environment:
+      GRPC_SERVER_ENV: ${GRPC_SERVER_ENV}
+      GRPC_SERVER_POSTGRES_URL: ${GRPC_SERVER_POSTGRES_URL}
+      GRPC_SERVER_POSTGRES_AUTO_MIGRATE: ${GRPC_SERVER_POSTGRES_AUTO_MIGRATE}
+      GRPC_SERVER_REDIS_ENDPOINT: ${GRPC_SERVER_REDIS_ENDPOINT}
+      GRPC_SERVER_REDIS_PASSWORD: ${GRPC_SERVER_REDIS_PASSWORD}
+      GRPC_SERVER_TOKEN_TTL: ${GRPC_SERVER_TOKEN_TTL}
+      GRPC_SERVER_JWT_SECRET: ${GRPC_SERVER_JWT_SECRET}
+      GRPC_SERVER_HOST: ${GRPC_SERVER_HOST}
+      GRPC_SERVER_PORT: ${GRPC_SERVER_PORT}
+      GRPC_SERVER_TIMEOUT: ${GRPC_SERVER_TIMEOUT}  
+
     restart: always
     depends_on:
-      - postgres
-      - redis
+      - postgres-grpc
+      - redis-grpc
