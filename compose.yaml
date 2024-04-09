@@ -5,14 +5,17 @@ volumes:
   postgresdb_data:
 
 services:
+
   postgres-grpc:
-    image: postgres:latest
+    restart: always
+    container_name: postgres-grpc
+    image: postgres:16-alpine
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: ${GRPC_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${GRPC_POSTGRES_PASSWORD}
-      POSTGRES_DB: ${GRPC_POSTGRES_DB}
+      - POSTGRES_USER=${GRPC_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${GRPC_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${GRPC_POSTGRES_DB}
     volumes:
       - postgresdb_data:/var/lib/postgresql/data
 
@@ -25,6 +28,7 @@ services:
 
   redis-grpc:
     image: redis:latest
+
     restart: always
     ports:
       - "6379:6379"
@@ -39,27 +43,28 @@ services:
       - "9200:9200"
 
   filebeat:
-    build:
-      context: ./FruitfulFriends-gRPC-server/filebeat
     container_name: filebeat
+    build:
+      context: ./filebeat
     command: filebeat -e -strict.perms=false
     volumes:
+      - ./FruitfulFriends-REST-API-server/logs:/src/logs
       - ./FruitfulFriends-gRPC-server/logs:/src/logs
     depends_on:
       - elasticsearch
       - kibana # Добавлено для зависимости от Logstash
 
-  logstash:
-    image: logstash:7.17.0
-    container_name: logstash
-    volumes:
-      - ./FruitfulFriends-gRPC-server/logstash/pipeline:/usr/share/logstash/pipeline
-      - ./FruitfulFriends-gRPC-server/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./FruitfulFriends-gRPC-server/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf # Добавлен этот volume
-    ports:
-      - "5000:5000"
-      - "9600:9600"
-    restart: always
+ # logstash:
+   # image: logstash:7.17.0
+   # container_name: logstash
+   # volumes:
+     # - ./FruitfulFriends-gRPC-server/logstash/pipeline:/usr/share/logstash/pipeline
+     # - ./FruitfulFriends-gRPC-server/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+     # - ./FruitfulFriends-gRPC-server/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf # Добавлен этот volume
+    #ports:
+     # - "5000:5000"
+      #- "9600:9600"
+    #restart: always
 
   kibana:
     image: kibana:7.17.0
