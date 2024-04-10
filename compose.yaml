@@ -6,8 +6,6 @@ services:
     image: postgres:16-alpine
     restart: always
     container_name: postgres-grpc
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_USER=${GRPC_POSTGRES_USER}
       - POSTGRES_PASSWORD=${GRPC_POSTGRES_PASSWORD}
