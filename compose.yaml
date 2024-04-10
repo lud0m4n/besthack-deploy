@@ -6,16 +6,15 @@ volumes:
 
 services:
   postgres-grpc:
+    image: postgres:16-alpine
     restart: always
     container_name: postgres-grpc
-    image: postgres:16-alpine
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=${GRPC_POSTGRES_USER}
       - POSTGRES_PASSWORD=${GRPC_POSTGRES_PASSWORD}
       - POSTGRES_DB=${GRPC_POSTGRES_DB}
-      - POSTGRES_HOST=${GRPC_POSTGRES_HOST}
     volumes:
       - postgresdb_data:/var/lib/postgresql/data
 
@@ -101,6 +100,8 @@ services:
       REST_SERVER_ALLOW_ORIGIN: ${REST_SERVER_ALLOW_ORIGIN}
       REST_SERVER_APP_ID: ${REST_SERVER_APP_ID}
       REST_SERVER_LOGS_PATH_FILE: ${REST_SERVER_LOGS_PATH_FILE}
+    volumes:
+      - ./FruitfulFriends-REST-API-server/logs:/app/logs
     ports:
       - "8081:8081"
     restart: always
