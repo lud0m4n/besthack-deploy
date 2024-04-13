@@ -1,9 +1,0 @@
-[submodule "FruitfulFriends-REST-API-server"]
-	path = FruitfulFriends-REST-API-server
-	url = https://github.com/markgregr/FruitfulFriends-REST-API-server
-[submodule "FruitfulFriends-gRPC-server"]
-	path = FruitfulFriends-gRPC-server
-	url = https://github.com/markgregr/FruitfulFriends-gRPC-server
-[submodule "TheBrawlers"]
-	path = TheBrawlers
-	url = https://github.com/CAPVOK/TheBrawlers
