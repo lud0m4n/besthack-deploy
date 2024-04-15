@@ -1,0 +1,9 @@
+# Пример logstash.yml
+
+# Указываем адрес Elasticsearch
+output.elasticsearch:
+  hosts: ["localhost:9200"]
+
+# Настройки логирования
+logging.level: info
+logging.format: plain

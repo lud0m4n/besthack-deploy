@@ -42,23 +42,22 @@ services:
       context: ./filebeat
     command: filebeat -e -strict.perms=false
     volumes:
-      - ./FruitfulFriends-REST-API-server/logs:/src/logs
-      - ./FruitfulFriends-gRPC-server/logs:/src/logs
+      - ./FruitfulFriends-REST-API-server/logs:/src/logs-rest
+      - ./FruitfulFriends-gRPC-server/logs:/src/logs-grpc
     depends_on:
       - elasticsearch
       - kibana # Добавлено для зависимости от Logstash
 
- # logstash:
-   # image: logstash:7.17.0
-   # container_name: logstash
-   # volumes:
-     # - ./FruitfulFriends-gRPC-server/logstash/pipeline:/usr/share/logstash/pipeline
-     # - ./FruitfulFriends-gRPC-server/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-     # - ./FruitfulFriends-gRPC-server/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf # Добавлен этот volume
-    #ports:
-     # - "5000:5000"
-      #- "9600:9600"
-    #restart: always
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash:7.17.0
+  #   ports:
+  #     - "5044:5044"
+  #   volumes:
+  #     - ./logstash/config/logstash.yml:/src/logstash/config/logstash.yml
+  #     - ./logstash/pipeline:/src/logstash/pipeline
+
+  #   depends_on:
+  #     - elasticsearch
 
   kibana:
     image: kibana:7.17.0

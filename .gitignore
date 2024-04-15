@@ -2,3 +2,4 @@
 FruitfulFriends-gRPC-server/logs/logger-grpc.log
 FruitfulFriends-REST-API-server/logs/logger-rest.log
 filebeat/filebeat.yml
+logstash/logstash.yml
