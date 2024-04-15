@@ -28,25 +28,25 @@ services:
       - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass besthack
 
-  elasticsearch:
-    image: elasticsearch:7.17.0
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
+  # elasticsearch:
+  #   image: elasticsearch:7.17.0
+  #   container_name: elasticsearch
+  #   environment:
+  #     - discovery.type=single-node
+  #   ports:
+  #     - "9200:9200"
 
-  filebeat:
-    container_name: filebeat
-    build:
-      context: ./filebeat
-    command: filebeat -e -strict.perms=false
-    volumes:
-      - ./FruitfulFriends-REST-API-server/logs:/src/logs-rest
-      - ./FruitfulFriends-gRPC-server/logs:/src/logs-grpc
-    depends_on:
-      - elasticsearch
-      - kibana # Добавлено для зависимости от Logstash
+  # filebeat:
+  #   container_name: filebeat
+  #   build:
+  #     context: ./filebeat
+  #   command: filebeat -e -strict.perms=false
+  #   volumes:
+  #     - ./FruitfulFriends-REST-API-server/logs:/src/logs-rest
+  #     - ./FruitfulFriends-gRPC-server/logs:/src/logs-grpc
+  #   depends_on:
+  #     - elasticsearch
+  #     - kibana # Добавлено для зависимости от Logstash
 
   # logstash:
   #   image: docker.elastic.co/logstash/logstash:7.17.0
@@ -59,13 +59,13 @@ services:
   #   depends_on:
   #     - elasticsearch
 
-  kibana:
-    image: kibana:7.17.0
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   image: kibana:7.17.0
+  #   container_name: kibana
+  #   ports:
+  #     - "5601:5601"
+  #   depends_on:
+  #     - elasticsearch
 
   rest-server:
     build:
