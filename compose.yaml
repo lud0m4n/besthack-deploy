@@ -28,6 +28,18 @@ services:
       - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass besthack
 
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #   - "9091:9091"
+
+  # grafana:
+  #   image: grafana/grafana
+  #   ports:
+  #     - "3001:3001"
+  
   # elasticsearch:
   #   image: elasticsearch:7.17.0
   #   container_name: elasticsearch
@@ -137,6 +149,7 @@ services:
     depends_on:
       - postgres-grpc
       - redis-grpc
+  
   brawlers-front:
     build:
       context: ./TheBrawlers
@@ -150,3 +163,4 @@ services:
       VITE_SOCKET_WS_HOST: ${VITE_SOCKET_WS_HOST}
       VITE_BASE_REST_URL: ${VITE_BASE_REST_URL}
       VITE_APP_PORT: ${VITE_APP_PORT}
+  
