@@ -110,6 +110,7 @@ services:
       - ./FruitfulFriends-REST-API-server/logs:/app/logs
     ports:
       - "8081:8081"
+      - "8082:8082"
     restart: always
 
   grpc-server:
