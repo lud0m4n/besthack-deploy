@@ -4,3 +4,6 @@
 [submodule "TheBrawlers"]
 	path = TheBrawlers
 	url = https://github.com/CAPVOK/TheBrawlers
+[submodule "FruitfulFriends-REST-API-server"]
+	path = FruitfulFriends-REST-API-server
+	url = https://github.com/markgregr/FruitfulFriends-REST-API-server
